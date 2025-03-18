@@ -3,16 +3,23 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const Question = require("./models/Question");
+require("dotenv").config()
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
 
-mongoose
-  .connect("mongodb://localhost:27017/skillsdb", { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.error(err));
+
+
+mongoose.connect(process.env.MONGO_URI, {
+  serverSelectionTimeoutMS: 30000,
+})
+.then(() => console.log("Connected to MongoDB Atlas"))
+.catch((err) => {
+  console.error("Error connecting to MongoDB", err.message);
+  process.exit(1);
+});
 
 
 app.get("/questions", async (req, res) => {

@@ -1,9 +1,14 @@
 const mongoose = require("mongoose");
 const Question = require("./models/Question");
+require("dotenv").config()
 
-mongoose.connect("mongodb://localhost:27017/skillsdb", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+mongoose.connect(process.env.MONGO_URI, {
+  serverSelectionTimeoutMS: 30000,
+})
+.then(() => console.log("Connected to MongoDB Atlas"))
+.catch((err) => {
+  console.error("Error connecting to MongoDB", err.message);
+  process.exit(1);
 });
 
 const seedQuestions = async () => {
