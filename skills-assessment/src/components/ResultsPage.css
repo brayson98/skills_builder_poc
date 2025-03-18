@@ -13,6 +13,7 @@ body {
   }
   
   h2 {
+    text-align: center; /* Center the feedback titles */
     color: #444;
     margin: 10px 0;
   }
@@ -21,6 +22,7 @@ body {
     margin: 10px 0;
     font-size: 1em;
     color: #555;
+    text-align: center; /* Center the feedback messages */
   }
   
   div {
@@ -53,3 +55,7 @@ body {
     background-color: #005a9e;
   }
   
+.container {
+    text-align: center; /* Center text within the container */
+    max-width: 600px;
+  }

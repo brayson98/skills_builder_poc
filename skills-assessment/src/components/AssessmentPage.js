@@ -1,81 +1,76 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./AssessmentPage.css";
+import "./AssessmentPage.css"; // Ensure this imports your CSS
 
 const AssessmentPage = () => {
   const navigate = useNavigate();
-
-  const [questions, setQuestions] = useState([]); // State to store fetched questions
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // Tracks which question is displayed
-  const [answers, setAnswers] = useState({}); // Stores the user's answers
-  const [loading, setLoading] = useState(true); // State to track if questions are loading
+  const [questions, setQuestions] = useState([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [answers, setAnswers] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch questions from the backend
     const fetchQuestions = async () => {
       try {
         const response = await fetch("http://localhost:5000/questions");
         const data = await response.json();
         setQuestions(data);
-        setLoading(false); // Set loading to false after fetching
+        sessionStorage.setItem("questions", JSON.stringify(data));
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching questions:", error);
-        setLoading(false); // Also stop loading in case of an error
+        setLoading(false);
       }
     };
 
     fetchQuestions();
   }, []);
 
-  // Current question based on the index
   const currentQuestion = questions[currentQuestionIndex];
 
-  // Handle selection of an answer
   const handleAnswerChange = (value) => {
-    setAnswers({
+    const updatedAnswers = {
       ...answers,
-      [currentQuestion._id]: value, // Use the question ID as the key
-    });
+      [currentQuestion._id]: value,
+    };
+    setAnswers(updatedAnswers);
+    sessionStorage.setItem("answers", JSON.stringify(updatedAnswers));
   };
 
-  // Move to the next question
   const handleNext = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      navigate("/results", { state: { answers } }); // Navigate to the results page after the last question
+      navigate("/results");
     }
   };
 
   if (loading) {
-    return <div>Loading questions...</div>; // Display a loading state
+    return <div>Loading questions...</div>;
   }
 
   if (questions.length === 0) {
-    return <div>No questions available. Please try again later.</div>; // Handle empty questions case
+    return <div>No questions available. Please try again later.</div>;
   }
 
   return (
-    <div>
+    <div className="container">
       <h1>Assessment</h1>
-      <div>
-        <p><strong>Category:</strong> {currentQuestion.category}</p>
-        <p><strong>Question {currentQuestionIndex + 1}:</strong> {currentQuestion.question}</p>
-        {/* Radio buttons for answers */}
-        <div>
-          {[1, 2, 3, 4, 5].map((value) => (
-            <label key={value} style={{ display: "block", margin: "5px 0" }}>
-              <input
-                type="radio"
-                name={`question-${currentQuestion._id}`}
-                value={value}
-                checked={answers[currentQuestion._id] === value}
-                onChange={() => handleAnswerChange(value)}
-              />
-              {value}
-            </label>
-          ))}
-        </div>
+      <p><strong>Category:</strong> {currentQuestion.category}</p>
+      <p><strong>Question {currentQuestionIndex + 1}:</strong> {currentQuestion.question}</p>
+      <div className="radio-container">
+        {[1, 2, 3, 4, 5].map((value) => (
+          <label key={value}>
+            <input
+              type="radio"
+              name={`question-${currentQuestion._id}`}
+              value={value}
+              checked={answers[currentQuestion._id] === value}
+              onChange={() => handleAnswerChange(value)}
+            />
+            {value}
+          </label>
+        ))}
       </div>
       <button onClick={handleNext} disabled={!answers[currentQuestion._id]}>
         {currentQuestionIndex < questions.length - 1 ? "Next" : "Submit"}

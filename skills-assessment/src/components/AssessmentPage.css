@@ -4,33 +4,33 @@ body {
     background-color: #fafafa;
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
   }
   
-  h1 {
-    text-align: center;
-    color: #444;
-    margin-top: 20px;
-  }
-  
-  p {
-    margin: 10px 0;
-    color: #555;
-    font-size: 1.1em;
-  }
-  
-  div {
-    margin: 0 auto;
+  .container {
+    text-align: center; /* Center text within the container */
     max-width: 600px;
   }
   
-  input[type="radio"] {
-    margin-right: 5px;
+  h1 {
+    color: #444;
+    margin-bottom: 20px;
   }
   
-  label {
-    margin-right: 15px;
-    font-size: 1em;
-    color: #333;
+  p {
+    color: #555;
+    font-size: 1.1em;
+    margin-bottom: 15px;
+  }
+  
+  .radio-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0;
   }
   
   button {
