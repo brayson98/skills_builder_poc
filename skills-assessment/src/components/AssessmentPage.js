@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./AssessmentPage.css"; // Ensure this imports your CSS
+import "./AssessmentPage.css"; 
 
 const AssessmentPage = () => {
   const navigate = useNavigate();

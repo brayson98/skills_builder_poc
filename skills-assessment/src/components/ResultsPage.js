@@ -1,10 +1,10 @@
 import React from "react";
 
 const ResultsPage = () => {
-  const questions = JSON.parse(sessionStorage.getItem("questions") || "[]"); // Retrieve questions from sessionStorage
-  const answers = JSON.parse(sessionStorage.getItem("answers") || "{}"); // Retrieve answers from sessionStorage
+  const questions = JSON.parse(sessionStorage.getItem("questions") || "[]"); 
+  const answers = JSON.parse(sessionStorage.getItem("answers") || "{}"); 
 
-  // Function to calculate average scores
+  
   const calculateAverages = () => {
     const categoryScores = {};
 
